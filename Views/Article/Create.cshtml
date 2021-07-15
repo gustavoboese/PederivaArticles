@@ -1,0 +1,69 @@
+@model PederivaArticles.Models.ArticleViewModel
+
+<div class="container">
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <!-- Section: Create Page -->
+    <section class="my-5">
+        <fieldset class="idea-form">
+        <!-- Grid row -->
+        <div class="row">
+            <!-- Grid column -->
+            <div class="col-lg-8">
+
+                <!-- First card -->
+                <div class="card mb-4 post-title-panel">
+                    <div class="card-body">
+                        <div class="md-form mt-1 mb-0">
+                            <label asp-for="Picture" class="control-label"></label>
+                            <input asp-for="Picture" accept="image/*" class="custom-file-input" />
+                            <span asp-validation-for="Picture" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- First card -->
+
+                <!-- First card -->
+                <div class="card mb-4 post-title-panel">
+                    <div class="card-body">
+                        <div class="md-form mt-1 mb-0">
+                            @Html.LabelFor(m => m.Title)
+                            @Html.TextBoxFor(m => m.Title, new{@class="form-control"})
+                        </div>
+                    </div>
+                </div>
+                <!-- First card -->
+
+                <!-- Second card -->
+                <div class="card mb-4">
+                    @Html.TextAreaFor(m=>m.Content)
+                </div>
+                <!-- Second card -->
+
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+        <button type="submit" class="btn btn-primary">Publish</button>
+        </fieldset>
+    </section>
+    <!-- Section: Create Page -->
+    </form>
+</div>
+
+
+@section scripts {
+    <!-- TinyMCE -->
+    <script src="~/js/vendor/tinymce/tinymce.min.js" asp-append-version="true"></script>
+    <!-- Custom scripts -->
+    <script>
+    // TinyMCE Initialization
+        tinymce.init({ selector:'#Content', menubar: false, height : "294" });
+                // Add the following code if you want the name of the file appear on select  
+        $(".custom-file-input").on("change", function () {  
+            var fileName = $(this).val().split("\\").pop();  
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);  
+        });  
+    </script>
+}

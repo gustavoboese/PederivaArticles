@@ -1,0 +1,48 @@
+@model PederivaArticles.Models.Article
+    <div class="container">
+
+      <!-- Section: Blog v.4 -->
+      <section class="mt-5 pb-3 wow fadeIn">
+
+        <!-- Grid row -->
+        <div class="row">
+
+          <!-- Grid column -->
+          <div class="col-md-12">
+
+            <!-- Featured image -->
+            <div class="card card-cascade wider reverse">
+              <div class="view view-cascade overlay">
+                    <img src="@("~/images/"+Model.Picture)" asp-append-version="true" class="img-fluid" alt="First sample image"/>
+                <a>
+                  <div class=""></div>
+                </a>
+              </div>
+
+              <!-- Post data -->
+              <div class="card-body card-body-cascade text-center">
+                <h2><a><strong>@Model.Title</strong></a></h2>
+                <p>Written by <a>@Model.UserName</a>, @Model.Created</p>
+
+              </div>
+              <!-- Post data -->
+            </div>
+
+            <!-- Excerpt -->
+            <div class="excerpt mt-5 wow fadeIn" data-wow-delay="0.3s">
+                 @Html.Raw(@Model.Content.Replace("\r\n", "<br />"))
+            </div>
+
+          </div>
+          <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+      </section>
+      <!-- Section: Blog v.4 -->
+
+      <hr class="mb-5 mt-4">
+
+    </div>
+

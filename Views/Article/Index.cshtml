@@ -1,0 +1,104 @@
+@model IEnumerable<PederivaArticles.Models.Article>
+    <div class="container">
+
+      <!-- Section: Blog v.3 -->
+      <section class="my-5 text-center text-lg-left wow fadeIn" data-wow-delay="0.3s">
+
+        <!-- Section heading -->
+        <h2 class="text-center my-5 h1">Recent Articles</h2>
+
+
+
+    @foreach (var sub in Model)
+    {
+        <!-- Grid row -->
+        <div class="row">
+
+          <!-- Grid column -->
+          <div class="col-lg-4 mb-4">
+            <!-- Featured image -->
+            <div class="view overlay z-depth-1">
+                <img src="@("~/images/"+sub.Picture)" asp-append-version="true" class="img-fluid" alt="First sample image"/>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-lg-7 mb-4">
+            <a><i datos="@sub.Id" class="like fa fa-thumbs-up">  @sub.count</i></a>
+            <!-- Excerpt -->
+            <h4 class="mb-4"><strong>@sub.Title</strong></h4>
+            @Html.Raw(@sub.Content.Replace("\r\n", "<br />"))
+            <p>
+                by <a><strong>@sub.UserName</strong></a><br>
+                <span>Created By: @sub.Created.ToLocalTime()</span><br>
+                <span>Last Updated: @sub.LastUpdated.ToLocalTime()</span>
+            </p>
+            @if (User.Identity.IsAuthenticated && User.Claims.FirstOrDefault(c=>c.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value == @sub.UserId)
+            {
+                <a asp-action="Edit" asp-route-id="@sub.Id">edit</a>
+                <a asp-action="Delete" asp-route-id="@sub.Id">delete</a>
+            }
+            else
+            {
+                <a asp-action="View" asp-route-id="@sub.Id">Read more</a>
+            }
+          </div>
+          <!-- Grid column -->
+        </div>
+        
+        <hr class="mb-5">
+        <!-- Grid row -->
+    }
+
+      </section>
+
+      <hr class="mb-5">
+    </div>
+
+ 
+
+
+
+
+
+
+
+
+
+
+<a class="create" asp-action="Create">Add New Article</a>
+
+
+
+
+    
+@section scripts {
+ <script type="text/javascript">
+        'use strict';
+        $(function () {
+            $(".like").click(function () {
+                var $input = $( this );
+                $.ajax({
+                    type: "POST",
+                    url: "/Article/LikesCount",
+                    data: { "id": $input.attr("datos") },
+                    success: function (response) {
+                        $input.text('  ' + response.count);
+                        //console.log(response);
+                        //alert("Total: " + response.count + " .\nUsuario : " + response.userId);
+                    },
+                    failure: function (response) {
+                        alert(response.count);
+                    },
+                    error: function (response) {
+                        alert(response.count);
+                   }
+                });
+            });
+        });
+    </script>
+}
